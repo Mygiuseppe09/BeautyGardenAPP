@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "945416627670",
+    "firebase_url": "https://android-app-86e03-default-rtdb.firebaseio.com",
+    "project_id": "android-app-86e03",
+    "storage_bucket": "android-app-86e03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945416627670:android:1e8d7806f46686047a3077",
+        "android_client_info": {
+          "package_name": "com.example.beautygardenbanqueting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "945416627670-utgibi180nv9eodq3qlbssgutn7slrtf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBR86LjpQwsi4ZYS7tDjp_4jDOdcjXCdI8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "945416627670-utgibi180nv9eodq3qlbssgutn7slrtf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

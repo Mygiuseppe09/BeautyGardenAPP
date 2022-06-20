@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ItemActivity">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        app:cardCornerRadius="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="100">
+
+            <!-- Immagine -->
+            <androidx.cardview.widget.CardView
+                app:cardCornerRadius="30dp"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_weight="50"
+                android:layout_height="0dp">
+
+                <ImageView
+                    android:id="@+id/ImageViewItem"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:scaleType="centerCrop" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- capienza persone && prezzo -->
+            <LinearLayout
+                android:translationX="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- SX -->
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/black"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <!-- ICONA CAPIENZA -->
+                    <ImageView
+                        android:layout_margin="5dp"
+                        android:id="@+id/capacityIcon"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:srcCompat="@drawable/capacity_icon" />
+
+                    <!-- TESTO ESPLICATIVO ICONA -->
+                    <TextView
+                        android:gravity="center"
+                        android:id="@+id/capacityAlert"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Capienza massima" />
+
+                    <!-- VALORE PRESO DAL DB -->
+                    <TextView
+                        android:gravity="center"
+                        android:id="@+id/capacityValue"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="25dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+                </LinearLayout>
+
+                <!-- DX -->
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <!-- ICONA PREZZO -->
+                    <ImageView
+                        android:layout_margin="5dp"
+                        android:id="@+id/priceIcon"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:srcCompat="@drawable/price" />
+
+                    <!-- TESTO ESPLICATIVO ICONA -->
+                    <TextView
+                        android:gravity="center"
+                        android:id="@+id/priceAlert"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Prezzo" />
+
+                    <!-- VALORE PRESO DAL DB -->
+                    <TextView
+                        android:gravity="center"
+                        android:id="@+id/priceValue"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="25dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- VALUTA E AGGIUNGI ALLA WISHLIST -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginStart="25dp"
+                    android:gravity="start"
+                    android:id="@+id/reviewAlert"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LASCIA UNA RECENSIONE!" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RatingBar
+                    android:translationY="-15dp"
+                    android:id="@+id/ratingBarItem"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:stepSize=".5" />
+
+                <!-- ICONA WISHLIST -->
+                <ImageView
+                    android:id="@+id/wishListIcon"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="55dp"
+                    app:srcCompat="@drawable/wishlist_empty" />
+            </LinearLayout>
+
+            <TextView
+                android:gravity="start"
+                android:id="@+id/descriptionAlert"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_width="wrap_content"
+                android:translationY="-20dp"
+                android:layout_marginStart="10dp"
+                android:layout_height="wrap_content"
+                android:text="DESCRIZIONE:" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="22dp"
+                    android:layout_marginTop="10dp"
+                    app:cardCornerRadius="10dp"
+                    android:layout_height="0dp"
+                    android:translationY="-30dp"
+                    android:layout_weight="60">
+
+                    <TextView
+                        android:gravity="start"
+                        android:id="@+id/description"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""/>
+
+                </ScrollView>
+
+
+
+
+        </LinearLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

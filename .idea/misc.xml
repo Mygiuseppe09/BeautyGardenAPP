@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/drawable/prova.xml" value="0.1335" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/activity_add_item.xml" value="0.21052631578947367" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/activity_edit_item.xml" value="0.1986842105263158" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/activity_home.xml" value="0.2" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/activity_item.xml" value="0.264" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/activity_item_wishlist_adapter.xml" value="0.20512820512820512" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/activity_login.xml" value="0.2" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/activity_signup.xml" value="0.25" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/activity_start.xml" value="0.2222222222222222" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/activity_super_home.xml" value="0.264" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/activity_super_home_active.xml" value="0.25" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/activity_superuser_item.xml" value="0.20512820512820512" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/activity_user.xml" value="0.22807017543859648" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/activity_verify_mail.xml" value="0.264" />
+        <entry key="..\:/Users/giuse/Desktop/BeautyGardenApp/app/src/main/res/layout/item.xml" value="0.264" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
