@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="I TUOI DATI"
-                android:textSize="25sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
 
@@ -125,22 +125,9 @@
                     android:textColor="@color/black"/>
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:layout_gravity="center"
-                android:layout_marginTop="35dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="LA TUA LISTA DEI DESIDERI"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/wishlistRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="0dp" />
+
+
 
 
 

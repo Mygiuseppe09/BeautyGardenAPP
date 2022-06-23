@@ -15,6 +15,7 @@
         android:layout_margin="0dp">
 
         <ImageView
+            android:padding="30dp"
             android:background="@color/purple_200"
             android:id="@+id/logo"
             android:layout_width="match_parent"
@@ -24,12 +25,9 @@
             android:src='@drawable/logobg'
             tools:ignore="HardcodedText" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.8"/>
-
         <ProgressBar
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/progressBar"
             style="?android:attr/progress"
             android:layout_width="100dp"
@@ -37,13 +35,12 @@
             android:layout_gravity="center"
             android:visibility="invisible" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="35dp" />
-
         <EditText
             android:id="@+id/loginEmailAddress"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="15dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:autofillHints=""
@@ -51,72 +48,65 @@
             android:gravity="center"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:textSize="20sp"
+            android:textSize="18sp"
             tools:ignore="HardcodedText" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
 
         <EditText
             android:id="@+id/loginPassword"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
             android:layout_gravity="center"
             android:autofillHints=""
             android:ems="10"
             android:gravity="center"
             android:hint="password"
             android:inputType="textPassword"
-            android:textSize="20sp"
+            android:textSize="18sp"
             tools:ignore="HardcodedText" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="italic"
+            android:text="Hai dimenticato la password?"
+            android:layout_margin="10dp"
+            android:textColor="#000"
+            android:textSize="16sp"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/loginButton"
-            android:layout_width="370dp"
+            android:layout_width="match_parent"
             android:layout_height="93dp"
             android:layout_gravity="center"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="10dp"
             android:backgroundTint="#584b3b"
             android:gravity="center"
             android:text="login"
             android:textSize="30sp"
             tools:ignore="HardcodedText" />
 
+        <TextView
+            android:id="@+id/signupTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="REGISTRATI"
+            android:textColor="#000"
+            android:textSize="20sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.6"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="162dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="hai dimenticato la password?"
-                android:textColor="#000"
-                android:textSize="20sp"
-                tools:ignore="HardcodedText" />
-
-            <TextView
-                android:id="@+id/signupTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/registrati"
-                android:textColor="#000"
-                android:textSize="20sp" />
-
-        </LinearLayout>
 
     </LinearLayout>
 

@@ -31,9 +31,9 @@
                 android:layout_gravity="center"
                 android:layout_weight="0.1"
                 android:gravity="center"
-                android:text="Ducale"
+                android:text="  "
                 android:textColor="#000000"
-                android:textSize="35sp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
             <androidx.cardview.widget.CardView
@@ -48,8 +48,7 @@
                     android:id="@+id/ImageViewItem"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/ducale2" />
+                    android:scaleType="centerCrop" />
 
             </androidx.cardview.widget.CardView>
 
@@ -62,10 +61,10 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="0.07"
                 android:gravity="center"
-                android:text="La più apprezzata"
+                android:text="  "
                 android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+                android:textStyle="bold"/>
 
             <RatingBar
                 android:id="@+id/ratingBarItem"

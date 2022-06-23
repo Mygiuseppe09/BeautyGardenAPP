@@ -39,6 +39,8 @@ public class UserActivity extends AppCompatActivity implements ItemAdapter.onIte
     private FirebaseDatabase db;
     private FirebaseAuth mAuth;
 
+    private User loggedUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +72,12 @@ public class UserActivity extends AppCompatActivity implements ItemAdapter.onIte
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()  && snapshot.getValue() != null) {
-                            nameView.setText(snapshot.child("name").getValue(String.class));
-                            surnameView.setText(snapshot.child("surname").getValue(String.class));
-                            emailView.setText(snapshot.child("email").getValue(String.class));
+                            loggedUser = snapshot.getValue(User.class);
+                            if (loggedUser != null) {
+                                nameView.setText(loggedUser.getName());
+                                surnameView.setText(loggedUser.getSurname());
+                                emailView.setText(loggedUser.getEmail());
+                            }
                         }
                     }
                     @Override
@@ -108,14 +113,10 @@ public class UserActivity extends AppCompatActivity implements ItemAdapter.onIte
                     public void onCancelled(@NonNull DatabaseError error) { }
                 });
 
-
-        setAllOnClickListener();
-    }
-
-    private void setAllOnClickListener() {
         homeTab.setOnClickListener(this::onClick);
         logoutTab.setOnClickListener(this::onClick);
     }
+
 
     @SuppressLint("NonConstantResourceId")
     private void onClick(View view) {
@@ -148,10 +149,11 @@ public class UserActivity extends AppCompatActivity implements ItemAdapter.onIte
     // metodo che si attiva al click di una sala
     @Override
     public void onItemClick(DataSnapshot snapshot, int position) {
-        // al click recuperiamo l'oggetto e passiamo
-        // all'activity "itemActivity" l'id
-
-        startActivity(new Intent(UserActivity.this, ItemActivity.class)
-                .putExtra("id", 1));
+        // al click recuperiamo l'id dell'oggetto e lo passiamo all'activity "itemActivity"
+        String uniqueId = snapshot.getKey();
+        if (uniqueId != null && !uniqueId.isEmpty()) {
+            startActivity(new Intent(UserActivity.this, ItemActivity.class)
+                    .putExtra("id", uniqueId));
+        }
     }
 }

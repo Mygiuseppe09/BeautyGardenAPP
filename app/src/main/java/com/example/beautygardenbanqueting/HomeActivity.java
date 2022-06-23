@@ -208,11 +208,10 @@ public class HomeActivity extends AppCompatActivity implements ItemAdapter.onIte
         }
     }
 
-    // metodo che si attiva al click dell'immagine di una sala
+    // metodo che si attiva al click dei un elemento della RecyclerView
     @Override
     public void onItemClick(DataSnapshot snapshot, int position) {
-        // al click recuperiamo l'oggetto e passiamo
-        // all'activity "itemActivity" l'id
+        // al click recuperiamo l'id dell'oggetto e lo passiamo all'activity "itemActivity"
         String uniqueId = snapshot.getKey();
         if (uniqueId != null && !uniqueId.isEmpty()) {
             startActivity(new Intent(HomeActivity.this, ItemActivity.class)

@@ -40,12 +40,13 @@ public class StartActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() != null) {
             db.getReference("users")
                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .child("superuser")
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists()  && snapshot.getValue() != null) {
-                                if (snapshot.getValue(Boolean.class))
+                                loggedUser = snapshot.getValue(User.class);
+
+                                if (loggedUser != null && loggedUser.isSuperuser())
                                     startActivity(new Intent(StartActivity.this, SuperHomeActivity.class));
                                 else
                                     startActivity(new Intent(StartActivity.this, HomeActivity.class));

@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,7 +28,7 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
 
     private TextView numPeopleValue;
     private TextView numItemsValue;
-    private ImageView logoutTab;
+    private ImageView logoutTab, profileTab;
     private Button add;
 
     private RecyclerView contents;
@@ -38,6 +37,8 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
 
     private FirebaseDatabase db;
     private FirebaseAuth mAuth;
+
+    private User loggedSuperuser;
 
 
 
@@ -54,6 +55,7 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
         add = (Button) findViewById(R.id.addButton);
 
         logoutTab = (ImageView) findViewById(R.id.logoutIcon);
+        profileTab = (ImageView) findViewById(R.id.profileIcon);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
@@ -73,7 +75,8 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists() && snapshot.getValue() != null) {
-                            name.setText(snapshot.getValue(User.class).getName() + " " + snapshot.getValue(User.class).getSurname());
+                            loggedSuperuser = snapshot.getValue(User.class);
+                            name.setText(loggedSuperuser.getName() + " " + loggedSuperuser.getSurname());
                         }
                     }
 
@@ -112,7 +115,6 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
                             numItemsValue.setText(String.valueOf(snapshot.getChildrenCount()));
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Toast.makeText(SuperHomeActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
@@ -130,6 +132,7 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
         //listeners
         add.setOnClickListener(this::onClick);
         logoutTab.setOnClickListener(this::onClick);
+        profileTab.setOnClickListener(this::onClick);
     }
 
 
@@ -144,6 +147,9 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
                 break;
             case R.id.addButton:
                 startActivity(new Intent(SuperHomeActivity.this, AddItemActivity.class));
+                break;
+            case R.id.profileIcon:
+                startActivity(new Intent(SuperHomeActivity.this, SuperUserActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
                 break;
 
         }
@@ -171,7 +177,7 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
         // all'activity "itemActivity" l'id
         String uniqueId = snapshot.getKey();
         if (uniqueId != null && !uniqueId.isEmpty()) {
-            startActivity(new Intent(SuperHomeActivity.this, SuperuserItemActivity.class)
+            startActivity(new Intent(SuperHomeActivity.this, SuperItemActivity.class)
                     .putExtra("id", uniqueId));
         }
     }
