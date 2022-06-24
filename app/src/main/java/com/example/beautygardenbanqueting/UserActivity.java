@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,14 +17,25 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+/***************************************************************************************************
+ Quest'activity è quella relativa alla visualizzazione delle informazioni e della wishlist dell'utente.
+
+ Per quanto riguarda la lista dei desideri, questa è semplicemente la stessa RecyclerView usata nella
+ home ma filtrata in funzione delle sale che l'utente ha aggiunto.
+ **************************************************************************************************/
 
 public class UserActivity extends AppCompatActivity implements ItemAdapter.onItemClickListener  {
 
+    // oggetti che rappresentano i punti di accesso a: database Firebase e autenticazione Firebase
+    private FirebaseDatabase db;
+    private FirebaseAuth mAuth;
+
+    // oggetto della classe User che useremo per reperire informazioni durante le queries
+    private User loggedUser;
+
+    // elementi del file xml
     private TextView nameView;
     private TextView surnameView;
     private TextView emailView;
@@ -35,12 +45,6 @@ public class UserActivity extends AppCompatActivity implements ItemAdapter.onIte
     private RecyclerView contents;
     private ItemAdapter itemAdapter;
     private FirebaseRecyclerOptions<Item> options;
-
-    private FirebaseDatabase db;
-    private FirebaseAuth mAuth;
-
-    private User loggedUser;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,7 @@ public class UserActivity extends AppCompatActivity implements ItemAdapter.onIte
         emailView = (TextView) findViewById(R.id.emailView);
         homeTab = (ImageView) findViewById(R.id.homeIcon);
         logoutTab = (ImageView) findViewById(R.id.logoutIcon);
+
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
@@ -94,6 +99,7 @@ public class UserActivity extends AppCompatActivity implements ItemAdapter.onIte
         itemAdapter = new ItemAdapter(options);
         contents.setAdapter(itemAdapter);
         itemAdapter.startListening();
+
         // per il click di ogni elemento
         itemAdapter.setOnItemClickListener(this);
 
@@ -113,6 +119,7 @@ public class UserActivity extends AppCompatActivity implements ItemAdapter.onIte
                     public void onCancelled(@NonNull DatabaseError error) { }
                 });
 
+        // listeners ai click sulla navbar
         homeTab.setOnClickListener(this::onClick);
         logoutTab.setOnClickListener(this::onClick);
     }

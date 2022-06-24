@@ -1,22 +1,17 @@
 package com.example.beautygardenbanqueting;
-
-import android.widget.RatingBar;
-
 import androidx.annotation.NonNull;
-
-import java.io.Serializable;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Item implements Comparable<Item> {
-    // dichiaro gli attributi (che sono le chiavi in firebase)
+
     private String name, slogan, image, description;
     private Integer capacity, price;
     private HashMap<String, Float> reviews;
 
     public Item() {}
 
-    public Item(String name, String slogan, String image, String description, Integer capacity, Integer price) {
+    public Item(String name, String slogan, String image,
+                String description, Integer capacity, Integer price) {
         this.name = name;
         this.slogan = slogan;
         this.image = image;
@@ -24,6 +19,8 @@ public class Item implements Comparable<Item> {
         this.capacity = capacity;
         this.price = price;
     }
+
+    // getters and setters
 
     public String getName() {
         return name;
@@ -80,6 +77,7 @@ public class Item implements Comparable<Item> {
     public void setReviews(HashMap<String, Float> reviews) {
         this.reviews = reviews;
     }
+
 
     @NonNull
     @Override

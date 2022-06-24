@@ -7,58 +7,51 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicBoolean;
+/***************************************************************************************************
+ Quest'activity è quella relativa alla Home di un utente "normale" e non superuser/admin.
+
+ Quello che fa è, oltre a mostare il nome di chi è loggato con un saluto annesso, mostrare la lista
+ delle sale reperite dalla collection "items" nel database all'interno di un RecyclerView.
+ Ad ogni oggetto della recycler view è associato un listener al click che rimanda all'ItemAcitviy.
+ **************************************************************************************************/
 
 public class HomeActivity extends AppCompatActivity implements ItemAdapter.onItemClickListener {
 
-
-    private RecyclerView contents;
-    private ItemAdapter itemAdapter;
-    private FirebaseRecyclerOptions<Item> options;
-
+    // oggetti che rappresentano i punti di accesso a: database Firebase e autenticazione Firebase
     private FirebaseAuth mAuth;
     private FirebaseDatabase db;
 
+    // elementi del file xml
     private TextView hiUser;
     private ImageView profileTab;
     private ImageView homeTab;
     private ImageView logoutTab;
 
+    private RecyclerView contents;
+    private ItemAdapter itemAdapter; // Estrae i dati delle sale dal database
+    private FirebaseRecyclerOptions<Item> options; // setta la query
+
+    // oggetto della classe User che useremo per reperire informazioni durante le queries
     private User loggedUser;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Home", "__ON_CREATE");
-        /****************************************************************************************
-         In questo metodo metteremo tutte quelle operazioni che vengono eseguite una sola volta,
-         ovvero l’impostazione del layout e il salvataggio dei riferimenti dei relativi componenti.
-         ****************************************************************************************/
-        // impostazione del Layout
         setContentView(R.layout.activity_home);
 
-
-       // db
+        // otteniamo le istanze relative a Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
 
@@ -77,13 +70,17 @@ public class HomeActivity extends AppCompatActivity implements ItemAdapter.onIte
                         .build();
 
         // reperiamo il nome dell'utente loggato e lo mettiamo in alto
+        if (mAuth.getCurrentUser() != null)
         db.getReference("users")
                 .child(mAuth.getCurrentUser().getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()  && snapshot.getValue() != null) {
-                            hiUser.setText("Ciao, " + snapshot.getValue(User.class).getName() + "!");
+                            loggedUser = snapshot.getValue(User.class);
+                            if (loggedUser != null) {
+                                hiUser.setText("Ciao, " + loggedUser.getName() + "!");
+                            }
                         }
                     }
                     @Override
@@ -91,105 +88,40 @@ public class HomeActivity extends AppCompatActivity implements ItemAdapter.onIte
                         Toast.makeText(HomeActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("Home", "__ON_START");
-        /****************************************************************************************
-         In questo metodo vengono implementate tutte quelle funzionalità che sono legate alla
-         visualizzazione, ma non all’interazione con gli utenti. (es: listener, check sul login)
-         ****************************************************************************************/
 
-        setAllOnClickListener();
 
         // per la RecyclerView
         itemAdapter = new ItemAdapter(options);
         contents.setAdapter(itemAdapter);
+
         itemAdapter.startListening();
+
         // per il click di ogni elemento
         itemAdapter.setOnItemClickListener(this);
 
-        checkIfUserIsSignedIn();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("Home", "__ON_RESUME");
-
-
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("Home", "__ON_PAUSE");
-
+        // listeners ai click sulla navbar
+        logoutTab.setOnClickListener(this::onClick);
+        profileTab.setOnClickListener(this::onClick);
 
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("Home", "__ON_STOP");
 
-
-        removeAllOnClickListener();
         itemAdapter.stopListening();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d("Home", "__ON_RESTART");
-        /****************************************************************************************
-         Il metodo onRestart() viene invocato quando un'activity era già stata creata e
-         successivamente messa in pausa e quindi stoppata (passaggio ad un'altra activity).
-         Permette di ripristinare quanto disabilitato nell’onStop() (es. listener)
-         ****************************************************************************************/
 
-        setAllOnClickListener();
         itemAdapter.startListening();
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("Home", "__ON_DESTROY");
-        /****************************************************************************************
-         Metodo simmetrico rispetto a onCreate() --> elimina le risorse in esso allocate.
-         ****************************************************************************************/
-    }
-
-
-    /**********************************************************************************************/
-
-    private void setAllOnClickListener() {
-        logoutTab.setOnClickListener(this::onClick);
-        profileTab.setOnClickListener(this::onClick);
-    }
-
-    private void removeAllOnClickListener() {
-        logoutTab.setOnClickListener(null);
-        profileTab.setOnClickListener(null);
-    }
-
-    private void checkIfUserIsSignedIn() {
-        if (mAuth.getCurrentUser() == null) {
-            // l'utente deve loggarsi
-            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-            finish();
-        }
-        else if (!mAuth.getCurrentUser().isEmailVerified()) {
-            // l'utente è loggato ma non ha verificato l'email
-            startActivity(new Intent(HomeActivity.this, VerifyMailActivity.class));
-            finish();
-        }
     }
 
 
@@ -202,6 +134,8 @@ public class HomeActivity extends AppCompatActivity implements ItemAdapter.onIte
                 finish();
                 break;
             case R.id.profileIcon:
+                // quando clicchiamo sul "tab" utente, andiamo nell'activity dove mostriamo le informazioni
+                // dell'utente ma rimuoviamo le animazioni.
                 startActivity(new Intent(HomeActivity.this, UserActivity.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
                 break;
 

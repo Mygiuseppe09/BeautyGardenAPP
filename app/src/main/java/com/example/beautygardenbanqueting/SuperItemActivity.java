@@ -15,18 +15,27 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/***************************************************************************************************
+ Quest'activity è quella relativa alla visualizzazione delle informazioni di una singola sala con cui
+ è possibile interagire.
+
+ Le informazioni mostrate sono: prezzo, capacità massima, descrizione ed una foto.
+ Le interazioni sono: modifica ed elimina.
+
+ Quest'activity viene lanciata al tap dalla Home del Superuser
+ **************************************************************************************************/
+
 public class SuperItemActivity extends AppCompatActivity {
-    // item passato dalla SuperHome (da reperire dal db, in quanto viene passato solo l'id)
-    private Item item;
-    // id della sala passato tratime l'intent dalla SuperHome
+
+    // id della sala passato tramime l'intent dalla SuperHome
     private String itemId;
+    // item (sala), da reperire dal db grazie all'id (stringa) passato dalla precedente activity
+    private Item item;
 
     // componenti del file xml (dinamici)
     private ImageView image;
@@ -37,12 +46,7 @@ public class SuperItemActivity extends AppCompatActivity {
 
     // Firebase
     private FirebaseDatabase db;
-    private FirebaseAuth mAuth;
-    private DatabaseReference itemRef;
 
-    // Gestione (modifica e cancellazione)
-    private boolean isPresent;
-    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +66,6 @@ public class SuperItemActivity extends AppCompatActivity {
 
         //inizializziamo quanto concerne col db
         db = FirebaseDatabase.getInstance();
-        mAuth = FirebaseAuth.getInstance();
 
         db.getReference("items").child(itemId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -70,7 +73,7 @@ public class SuperItemActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()  && snapshot.getValue() != null) {
                             item = snapshot.getValue(Item.class);
-                            itemRef = snapshot.getRef();
+
                             // ora possiamo inizializzare il tutto..
 
                             // immagine
@@ -109,13 +112,15 @@ public class SuperItemActivity extends AppCompatActivity {
                 startActivity(new Intent(SuperItemActivity.this, EditItemActivity.class).putExtra("id", itemId));
                 break;
             case R.id.deleteButton:
-                itemRef.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                db.getReference("items")
+                        .child(itemId)
+                        .removeValue()
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(SuperItemActivity.this, "Sala rimossa correttamente", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SuperItemActivity.this, SuperHomeActivity.class));
-
                         }
                     }
                 });

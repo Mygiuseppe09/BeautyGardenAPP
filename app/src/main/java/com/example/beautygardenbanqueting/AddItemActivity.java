@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,24 +14,31 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+/***************************************************************************************************
+ Quest'activity è quella relativa all'aggiunta di un nuovo oggetto nella collection "items"
+
+ Quello che fa è prendere in input tutti i valori che vanno associati alle chiavi del modello Item,
+ così da creare un'istanza, appunto, della classe Item e salvarla nel database.
+ **************************************************************************************************/
 
 public class AddItemActivity extends AppCompatActivity {
+
+    // elementi del file xml
     private EditText name, price, capacity, slogan, image, description;
     private Button addButton;
     private ProgressBar progressBar;
+
+    // punto di accesso al database Firebase
     private FirebaseDatabase db;
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
+        // salvataggio dei riferimenti dei relativi componenti xml
         name = findViewById(R.id.nameEditText);
         price = findViewById(R.id.priceEditTex);
         capacity = findViewById(R.id.capacityEditTex);
@@ -42,8 +48,8 @@ public class AddItemActivity extends AppCompatActivity {
         addButton = findViewById(R.id.addToDb);
         progressBar = findViewById(R.id.progressBar);
 
+        // otteniamo l'istanza del database
         db = FirebaseDatabase.getInstance();
-        mAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -112,19 +118,20 @@ public class AddItemActivity extends AppCompatActivity {
 
         Item newItem = new Item(name,slogan,imageURL,description,capacity,price);
 
-        db.getReference("items").push().setValue(newItem)
+        db.getReference("items")
+                .push()
+                .setValue(newItem)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             progressBar.setVisibility(View.GONE);
-                            Toast.makeText(AddItemActivity.this, "Sala aggiunta correttamente", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddItemActivity.this,
+                                    "Sala aggiunta correttamente", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(AddItemActivity.this, SuperHomeActivity.class));
                             finish();
                         }
                     }
                 });
-
-
     }
 }

@@ -1,8 +1,5 @@
 package com.example.beautygardenbanqueting;
 
-
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,17 +17,15 @@ import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
 
+
 public class ItemAdapter extends FirebaseRecyclerAdapter <Item,ItemAdapter.MyViewHolder> {
 
     private onItemClickListener listener;
-
-
 
     // costruttore
     public ItemAdapter(@NonNull FirebaseRecyclerOptions<Item> options) {
         super(options);
     }
-
 
     public void setOnItemClickListener(onItemClickListener listener) {
         this.listener = listener;
@@ -38,7 +33,7 @@ public class ItemAdapter extends FirebaseRecyclerAdapter <Item,ItemAdapter.MyVie
 
     @Override
     protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull Item model) {
-        // qui inizializziamo ongi elemento del file xml.
+        // qui inizializziamo ogni elemento del file xml.
 
         // nome della sala
         holder.name.setText(model.getName());
@@ -56,7 +51,6 @@ public class ItemAdapter extends FirebaseRecyclerAdapter <Item,ItemAdapter.MyVie
             holder.ratingBar.setRating(average);
         }
 
-
         // immagine
         Glide.with(holder.image.getContext()).load(model.getImage()).into(holder.image);
     }
@@ -68,7 +62,6 @@ public class ItemAdapter extends FirebaseRecyclerAdapter <Item,ItemAdapter.MyVie
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
         return new MyViewHolder(view);
     }
-
 
 
     // STOTTO-CLASSE CHE CREA LE REFERENZE COL FILE XML

@@ -68,13 +68,13 @@
             tools:ignore="HardcodedText" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/resetPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:textStyle="italic"
-            android:text="Hai dimenticato la password?"
+            android:text="Ho dimenticato la password"
             android:layout_margin="10dp"
             android:textColor="#000"
             android:textSize="16sp"

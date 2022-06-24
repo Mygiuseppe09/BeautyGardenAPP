@@ -3,9 +3,7 @@ package com.example.beautygardenbanqueting;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -13,24 +11,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+
+/***************************************************************************************************
+ Quest'activity è quella relativa alla visualizzazione delle informazioni di una singola sala con cui
+ è possibile interagire.
+
+ Le informazioni mostrate sono: prezzo, capacità massima, descrizione ed una foto.
+ Le interazioni sono: aggiungi alla  lista dei desideri e inserisci una recensione (1 a 5 stelle)
+
+Quest'activity viene lanciata sia al tap dalla Home che dal tap dalla lista dei desideri dell'utente.
+ **************************************************************************************************/
 
 public class ItemActivity extends AppCompatActivity {
-    // item passato dalla Home (da reperire dal db, in quanto viene passato solo l'id)
-    private Item item;
-    // id della sala passato tratime l'intent dalla Home
+
+    // id della sala passato tramime l'intent dalla Home
     private String itemId;
+    // item (sala), da reperire dal db grazie all'id (stringa) passato dalla precedente activity
+    private Item item;
 
     //componenti del file xml (dinamici)
     private ImageView image, addToWishListButton;
@@ -40,11 +44,6 @@ public class ItemActivity extends AppCompatActivity {
     //Firebase
     private FirebaseDatabase db;
     private FirebaseAuth mAuth;
-    private DatabaseReference itemRef;
-
-    // Wishlist
-    private boolean isPresent;
-    private int position;
 
 
     @Override
@@ -63,7 +62,7 @@ public class ItemActivity extends AppCompatActivity {
         description = (TextView) findViewById(R.id.description);
         ratingBar = (RatingBar) findViewById(R.id.ratingBarItem);
 
-        //inizializziamo quanto concerne col db
+        // otteniamo le istanze relative a Firebase
         db = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
     }
@@ -72,13 +71,13 @@ public class ItemActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        // ci agganciamo all'oggetto nella collection "items" grazie all'Uid
         db.getReference("items").child(itemId)
                         .addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if (snapshot.exists()  && snapshot.getValue() != null) {
                                     item = snapshot.getValue(Item.class);
-                                    itemRef = snapshot.getRef();
                                     // ora possiamo inizializzare il tutto..
 
                                     // immagine
@@ -92,11 +91,13 @@ public class ItemActivity extends AppCompatActivity {
                                     capacityValue.setText(item.getCapacity().toString());
                                     // descrizione
                                     description.setText(item.getDescription());
-                                    // review
+                                    // review (se l'ha già messa)
                                     HashMap<String, Float> reviews = item.getReviews();
-                                    if (reviews != null) {
+                                    if (reviews != null) { // se la sala ha almeno una review
                                         for (String key: reviews.keySet()) {
+                                            // cicliamo le chiavi (che sono gli id degli utenti)
                                             if (key.equals(mAuth.getCurrentUser().getUid())) {
+                                                // se troviamo tra le chiavi quella dell'utente loggato,
                                                 // allora l'utente ha già messo una review
                                                 float rating = reviews.get(key);
                                                 ratingBar.setRating(rating);
@@ -113,7 +114,7 @@ public class ItemActivity extends AppCompatActivity {
                         });
 
 
-        // vediamo se l'utente ha già questa salla nella wishlist
+        // vediamo se l'utente ha già questa salla nella wishlist così da stabilire se caricare l'icona colorata o meno
         db.getReference("users")
                 .child(mAuth.getCurrentUser().getUid())
                 .child("wishlist")
@@ -127,7 +128,7 @@ public class ItemActivity extends AppCompatActivity {
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-                                Toast.makeText(ItemActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ItemActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                             }
                         });
 
@@ -137,6 +138,8 @@ public class ItemActivity extends AppCompatActivity {
         addToWishListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // quando clicco sul pulsante "wishlist" a prescindere che sia colorato o meno
+                // quello che facciamo è accedere al campo "wishlist" dell'utente loggato in Firebase
                 db.getReference("users")
                         .child(mAuth.getCurrentUser().getUid())
                         .child("wishlist")
@@ -144,63 +147,46 @@ public class ItemActivity extends AppCompatActivity {
                               @Override
                               public void onDataChange(@NonNull DataSnapshot snapshot) {
                                   if (snapshot.exists() && snapshot.getValue() != null) {
-                                      // se esiste una wishlist
+                                      // se l'utente loggato ha una wishlist con qualcosa dentro, allora controlliamo se ha questa
                                       if (!snapshot.hasChild(itemId)) {
                                           // se non c'è ancora l'item con l'id lo aggiungiamo
                                           snapshot.getRef().child(itemId).setValue(item);
+                                          // settiamo l'immagine colorata
                                           addToWishListButton.setImageResource(R.drawable.wishlist_full);
                                       }
                                       else {
-                                          // sennò lo rimuoviamo
+                                          // sennò, signfica che ha già la sala nella lista dei desideri e la vuole rimuovere
                                           snapshot.child(itemId).getRef().removeValue();
+                                          // settiamo l'immagine NON colorata
                                           addToWishListButton.setImageResource(R.drawable.wishlist_empty);
                                       }
                                   }
                                   else {
-                                      // wishlist vuota
+                                      // se la wishlist è vuota, allora non c'è sicuramente => la aggiungiamo
                                       snapshot.getRef().child(itemId).setValue(item);
+                                      // settiamo l'immagine colorata
                                       addToWishListButton.setImageResource(R.drawable.wishlist_full);
                                   }
                               }
                               @Override
                               public void onCancelled(@NonNull DatabaseError error) {
-                                  Toast.makeText(ItemActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                                  Toast.makeText(ItemActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                               }
                           });
             }
         });
 
+        // impostaimo un listener al click sulla ratingBar
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 // quando l'utente valuta una sala, dobbiamo salvare la review nell'oggetto item nel db
-                // Ricordiamoci che in itemRef abbiamo la referenza alla nostra sala
-                itemRef.child("reviews").child(mAuth.getCurrentUser().getUid()).setValue(rating);
+                db.getReference("items").child(itemId)
+                        .child("reviews")
+                        .child(mAuth.getCurrentUser().getUid()) // creiamo un nuovo "figlio" con l'id dell'utente
+                        .setValue(rating);
             }
         });
 
     }
-
-
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-
-
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
 }

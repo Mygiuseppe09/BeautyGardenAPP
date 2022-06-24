@@ -1,24 +1,27 @@
 package com.example.beautygardenbanqueting;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User {
+
     private String name, surname, email;
     private boolean isSuperuser;
     private HashMap<String, Item> wishlist;
 
+    public User() { }
 
-    public User() {
-
-    }
-
-    public User(String name, String surname, String email, boolean isSuperuser) {
+    public User(String name, String surname,
+                String email, boolean isSuperuser) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.isSuperuser = isSuperuser;
 
+    }
+
+    // getters and setters
+
+    public void setWishlist(HashMap<String, Item> wishlist) {
+        this.wishlist = wishlist;
     }
 
     public HashMap<String, Item> getWishlist() {

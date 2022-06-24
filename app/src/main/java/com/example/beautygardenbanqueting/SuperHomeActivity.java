@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,10 +21,23 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/***************************************************************************************************
+ Quest'activity è quella relativa alla Home di un utente "superuser"
+
+ Quello che fa è, oltre a mostare il nome ed il cognome del superuser, è mostrare un'icona che ne indica
+ i "superpoteri": infatti, è possibile vedere quanti utenti iscritti vi sono alla piattaforma e quante
+ sale vi sono pubblicate.
+
+ E' presente un pulsante che consente l'aggiunta di una sala.
+
+ E' presente la RecyclerView contenente le sale reperite dalla collection "items" nel database.
+ Ad ogni oggetto della recycler view è associato un listener al click che rimanda alla SuperItemAcitviy.
+ **************************************************************************************************/
+
 public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.onItemClickListener {
 
+    // elementi del file xml
     private TextView name;
-
     private TextView numPeopleValue;
     private TextView numItemsValue;
     private ImageView logoutTab, profileTab;
@@ -35,20 +47,20 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
     private ItemAdapter itemAdapter;
     private FirebaseRecyclerOptions<Item> options;
 
+    // oggetti che rappresentano i punti di accesso a: database Firebase e autenticazione Firebase
     private FirebaseDatabase db;
     private FirebaseAuth mAuth;
 
+    // oggetto della classe User che useremo per reperire informazioni durante le queries
     private User loggedSuperuser;
-
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("ActivityName", "__ON_CREATE");
         setContentView(R.layout.activity_super_home);
 
+        // salvataggio dei riferimenti dei relativi componenti xml
         numPeopleValue = (TextView) findViewById(R.id.numPeopleValue);
         numItemsValue = (TextView) findViewById(R.id.numItemsValue);
         name = (TextView) findViewById(R.id.hiUserTextView);
@@ -57,6 +69,7 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
         logoutTab = (ImageView) findViewById(R.id.logoutIcon);
         profileTab = (ImageView) findViewById(R.id.profileIcon);
 
+        // otteniamo le istanze relative a Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
 
@@ -69,7 +82,7 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
                 .setQuery(db.getReference("items"), Item.class)
                 .build();
 
-        // riempiamo il nome dell'amministratore
+        // riempiamo il nome e il cognome dell'amministratore
         db.getReference("users").child(mAuth.getCurrentUser().getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -102,7 +115,9 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
                    }
                    @Override
                    public void onCancelled(@NonNull DatabaseError error) {
-                       Toast.makeText(SuperHomeActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                       Toast.makeText(SuperHomeActivity.this,
+                               error.getMessage(),
+                               Toast.LENGTH_SHORT).show();
                    }
                });
 
@@ -117,7 +132,9 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(SuperHomeActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SuperHomeActivity.this,
+                                error.getMessage(),
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -153,7 +170,6 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
                 break;
 
         }
-
     }
 
     @Override

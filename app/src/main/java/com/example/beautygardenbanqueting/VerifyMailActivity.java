@@ -1,53 +1,56 @@
 package com.example.beautygardenbanqueting;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+/***************************************************************************************************
+ Quest'activity è quella relativa alla verifica della mail inserita in fase di registrazione.
+
+ Quello che fa è mostrare del testo (in realta è un immagine che si prende tutto lo schermo) che dice
+ all'utente di aprire il proprio client di posta elettronica e lo invita a tornare una volta fatto.
+ Se la verifica va a buon fine, una volta che torna nell'app, nel metodo onRestart() (che si attiva
+ proprio dopo l'invocazione del metodo onStop() e cioè quando l'acitivity non è più visualizzata),
+ è presente un check sulla mail:
+ * se è verificata => allora l'utente va alla Home
+ * se NON è verificata => allora viene mostrato un messaggio in cui lo si fa presente all'utente.
+
+ p.s. se l'utente non la verifica e chiude l'app (ne forza l'interruzione) comunque nella StartActivity
+ vi è un check sulla verifica dell'email, quindi non bypassa quest'aspetto di sicurezza.
+ **************************************************************************************************/
 
 public class VerifyMailActivity extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
     private Button resendMail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("VerifyMail", "__ON_CREATE");
-        /****************************************************************************************
-         In questo metodo metteremo tutte quelle operazioni che vengono eseguite una sola volta,
-         ovvero l’impostazione del layout e il salvataggio dei riferimenti dei relativi componenti.
-         ****************************************************************************************/
-
         setContentView(R.layout.activity_verify_mail);
+
+        // otteniamo l'istanza relative a Firebase (autenticazione)
+        mAuth = FirebaseAuth.getInstance();
+
         resendMail = (Button) findViewById(R.id.resendMail);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("ActivityName", "_ON_START");
-        /****************************************************************************************
-         In questo metodo vengono implementate tutte quelle funzionalità che sono legate alla
-         visualizzazione, ma non all’interazione con gli utenti. (es: listener, check sul login utente)
-         ****************************************************************************************/
 
+        // mettiamo il listener al click sul pulsante "NON HO RICEVUTO L'EMAIL"
         resendMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification()
+                if (mAuth.getCurrentUser() != null)
+                mAuth.getCurrentUser()
+                        .sendEmailVerification()
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
@@ -58,40 +61,28 @@ public class VerifyMailActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d("VerifyMail", "__ON_RESTART");
-        /****************************************************************************************
-         Il metodo onRestart() viene invocato quando un'activity era già stata creata e
-         successivamente messa in pausa e quindi stoppata (passaggio ad un'altra activity).
-         Serve a ripristinare quanto disabilitato nel metodo onStop() (es. listener),
-         oppure ad aggiornare una variabile / oggetto inizializzato nella onCreate().
-         ****************************************************************************************/
+        // questo metodo si invoca dopo che l'activity non viene più visualizzata e viene successivamente riaperta..
+        // in poche parole, è qui che bisogna fare il reload sull'utente corrente delle sue informazioni
 
-        FirebaseAuth.getInstance().getCurrentUser().reload()
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
-                                startActivity(new Intent(VerifyMailActivity.this, HomeActivity.class));
-                                finish();
-                            }
+        if (mAuth.getCurrentUser() != null)
+        mAuth.getCurrentUser()
+                .reload()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        if (mAuth.getCurrentUser().isEmailVerified()) {
+                            startActivity(new Intent(VerifyMailActivity.this, HomeActivity.class));
+                            finish();
                         }
-                    });
+                        else
+                            Toast.makeText(VerifyMailActivity.this,
+                                    "sei tornato qui, ma non hai verificato ancora la tua email",
+                                    Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("ActivityName", "_ON_RESUME");
-        /****************************************************************************************
-         In questo metodo vengono implementate tutte quelle funzioni che sono legate all’effettivo
-         uso da parte dell’utente, come per esempio l’accesso alla fotocamera, suoni, animazioni.
-         Inoltre, viene invocato al posto dell'onRestart() se l'activity non era stata stoppata,
-         ma solo messa in pausa (capita quando si lancia una seconda activity non in full screen)
-         ****************************************************************************************/
-
-    }
 }

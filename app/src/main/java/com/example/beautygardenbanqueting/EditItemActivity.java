@@ -13,28 +13,40 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/***************************************************************************************************
+ Quest'activity è quella relativa alla modifica di un oggetto dalla collection "items"
+
+ Quello che fa è mostrare le informazioni correnti della sala all'interno di tante "EditTex",
+ così da creare un'stanza della classe Item con le nuove informazioni per poi inserirla nel db
+ sovrascrivendo quella già esistente in quanto il nuovo nodo avrà lo stesso id di quello precedente
+ **************************************************************************************************/
+
 public class EditItemActivity extends AppCompatActivity {
+
+    // componenti del file xml
     private EditText name, price, capacity, slogan, image, description;
     private Button editButton;
     private ProgressBar progressBar;
+
+    // punto di accesso al database Firebase
     private FirebaseDatabase db;
-    private FirebaseAuth mAuth;
 
-    private Item item;
-
+    // id della sala passato tramime l'intent dalla SuperHome
     private String itemId;
+    // item (sala), da reperire dal db grazie all'id (stringa) passato dalla precedente activity
+    private Item item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
 
+        // salvataggio dei riferimenti dei relativi componenti xml
         name = findViewById(R.id.nameEditText);
         price = findViewById(R.id.priceEditTex);
         capacity = findViewById(R.id.capacityEditTex);
@@ -46,9 +58,10 @@ public class EditItemActivity extends AppCompatActivity {
 
         itemId = getIntent().getStringExtra("id");
 
+        // otteniamo l'istanza del db
         db = FirebaseDatabase.getInstance();
-        mAuth = FirebaseAuth.getInstance();
 
+        // accediamo alle informazioni della sala mostrata e le inseriamo nei campi editabili
         db.getReference("items").child(itemId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

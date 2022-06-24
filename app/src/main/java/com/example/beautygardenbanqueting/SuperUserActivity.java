@@ -2,7 +2,6 @@ package com.example.beautygardenbanqueting;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -12,24 +11,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/***************************************************************************************************
+ Quest'activity è quella relativa alla visualizzazione delle informazioni di un utente "superuser"
+
+ Quello che fa è mostrare nome, cognome e email dell'admin.
+ **************************************************************************************************/
+
 public class SuperUserActivity extends AppCompatActivity {
 
+    // elementi del file xml
     private TextView nameView;
     private TextView surnameView;
     private TextView emailView;
     private ImageView homeTab;
     private ImageView logoutTab;
 
+    // oggetti che rappresentano i punti di accesso a: database Firebase e autenticazione Firebase
     private FirebaseDatabase db;
     private FirebaseAuth mAuth;
 
+    // oggetto della classe User che useremo per reperire informazioni durante le queries
     private User loggedSuperuser;
 
     @Override
@@ -37,12 +44,14 @@ public class SuperUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_super_user);
 
+        // salvataggio dei riferimenti dei relativi componenti xml
         nameView = (TextView) findViewById(R.id.nameView);
         surnameView = (TextView) findViewById(R.id.surnameView);
         emailView = (TextView) findViewById(R.id.emailView);
         homeTab = (ImageView) findViewById(R.id.homeIcon);
         logoutTab = (ImageView) findViewById(R.id.logoutIcon);
 
+        // otteniamo le istanze relative a Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
 

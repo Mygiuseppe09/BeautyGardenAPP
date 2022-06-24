@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BeautyGardenBanqueting">
         <activity
+            android:name=".ResetPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditItemActivity"
             android:exported="false" />
         <activity
