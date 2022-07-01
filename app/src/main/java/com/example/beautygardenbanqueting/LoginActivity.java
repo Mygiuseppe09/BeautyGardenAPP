@@ -141,11 +141,13 @@ public class LoginActivity extends AppCompatActivity {
                     redirectUserOrSuperuserToHome();
                 }
                 else {
-                    Toast.makeText(LoginActivity.this, "Qualcosa è andato storto: controlla le credenziali :(", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this,
+                            "Qualcosa è andato storto: controlla le credenziali :(",
+                            Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         });
-
     }
 
     private void redirectUserOrSuperuserToHome() {

@@ -68,19 +68,21 @@ public class EditItemActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists() && snapshot.getValue() != null) {
                             item = snapshot.getValue(Item.class);
-
-                            name.setText(item.getName());
-                            price.setText(item.getPrice().toString());
-                            capacity.setText(item.getCapacity().toString());
-                            slogan.setText(item.getSlogan());
-                            image.setText(item.getImage());
-                            description.setText(item.getDescription());
+                            if (item != null) {
+                                name.setText(item.getName());
+                                price.setText(item.getPrice().toString());
+                                capacity.setText(item.getCapacity().toString());
+                                slogan.setText(item.getSlogan());
+                                image.setText(item.getImage());
+                                description.setText(item.getDescription());
+                            }
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(EditItemActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditItemActivity.this, error.getMessage(),
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }

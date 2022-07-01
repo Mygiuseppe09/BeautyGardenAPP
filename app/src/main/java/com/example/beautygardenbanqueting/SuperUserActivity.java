@@ -94,7 +94,7 @@ public class SuperUserActivity extends AppCompatActivity {
             case R.id.logoutIcon:
                 mAuth.signOut();
                 startActivity(new Intent(SuperUserActivity.this, LoginActivity.class));
-                finish();
+                finishAffinity();
                 break;
         }
     }

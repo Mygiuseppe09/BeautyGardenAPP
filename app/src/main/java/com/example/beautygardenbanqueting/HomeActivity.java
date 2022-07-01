@@ -131,7 +131,7 @@ public class HomeActivity extends AppCompatActivity implements ItemAdapter.onIte
             case R.id.logoutIcon:
                 mAuth.signOut();
                 startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-                finish();
+                finishAffinity();
                 break;
             case R.id.profileIcon:
                 // quando clicchiamo sul "tab" utente, andiamo nell'activity dove mostriamo le informazioni

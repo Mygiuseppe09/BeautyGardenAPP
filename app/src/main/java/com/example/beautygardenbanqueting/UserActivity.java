@@ -134,7 +134,7 @@ public class UserActivity extends AppCompatActivity implements ItemAdapter.onIte
             case R.id.logoutIcon:
                 mAuth.signOut();
                 startActivity(new Intent(UserActivity.this, LoginActivity.class));
-                finish();
+                finishAffinity();
                 break;
         }
     }
