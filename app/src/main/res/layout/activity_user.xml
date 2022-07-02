@@ -165,6 +165,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="0.33"
                 android:padding="10dp"
+                android:layout_marginTop="2dp"
                 android:contentDescription="profile"
                 android:src="@drawable/user_18"
                 tools:ignore="HardcodedText" />
@@ -177,6 +178,7 @@
                 android:layout_weight="0.33"
                 android:contentDescription="home"
                 android:padding="10dp"
+                android:layout_marginTop="2dp"
                 android:src="@drawable/home_18"
                 tools:ignore="HardcodedText" />
 
@@ -185,6 +187,7 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:padding="8dp"
+                android:layout_marginTop="2dp"
                 android:layout_gravity="center"
                 android:layout_weight="0.33"
                 android:contentDescription="logout"
