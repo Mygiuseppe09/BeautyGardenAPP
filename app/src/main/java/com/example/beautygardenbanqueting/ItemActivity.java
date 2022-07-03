@@ -183,6 +183,7 @@ public class ItemActivity extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 // quando l'utente valuta una sala, dobbiamo salvare la review nell'oggetto item nel db
+                if (rating > 0)
                 db.getReference("items").child(itemId)
                         .child("reviews")
                         .child(mAuth.getCurrentUser().getUid()) // creiamo un nuovo "figlio" con l'id dell'utente

@@ -66,8 +66,12 @@ public class UserActivity extends AppCompatActivity implements ItemAdapter.onIte
         contents = (RecyclerView) findViewById(R.id.wishlistRecyclerView);
         contents.setLayoutManager(new LinearLayoutManager(this));
         // ne impostiamo la query
+        if (mAuth.getCurrentUser() != null)
         options = new FirebaseRecyclerOptions.Builder<Item>()
-                .setQuery(db.getReference("users").child(mAuth.getCurrentUser().getUid()).child("wishlist"), Item.class)
+                .setQuery(db.getReference("users")
+                        .child(mAuth.getCurrentUser().getUid())
+                        .child("wishlist"),
+                        Item.class)
                 .build();
 
         // reperiamo le informazioni dell'utente loggato e le mettiamo in alto

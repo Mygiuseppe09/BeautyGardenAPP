@@ -109,7 +109,9 @@ public class SuperItemActivity extends AppCompatActivity {
     private void onClick(View view) {
         switch(view.getId()) {
             case R.id.editButton:
-                startActivity(new Intent(SuperItemActivity.this, EditItemActivity.class).putExtra("id", itemId));
+                startActivity(new Intent(SuperItemActivity.this,
+                        EditItemActivity.class)
+                        .putExtra("id", itemId));
                 break;
             case R.id.deleteButton:
                 db.getReference("items")
@@ -119,8 +121,10 @@ public class SuperItemActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(SuperItemActivity.this, "Sala rimossa correttamente", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(SuperItemActivity.this, SuperHomeActivity.class));
+                            Toast.makeText(SuperItemActivity.this, "Sala rimossa correttamente",
+                                    Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SuperItemActivity.this,
+                                                                SuperHomeActivity.class));
                         }
                     }
                 });
