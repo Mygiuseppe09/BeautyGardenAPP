@@ -37,7 +37,7 @@ public class VerifyMailActivity extends AppCompatActivity {
         // otteniamo l'istanza relative a Firebase (autenticazione)
         mAuth = FirebaseAuth.getInstance();
 
-        resendMail = (Button) findViewById(R.id.resendMail);
+        resendMail = findViewById(R.id.resendMail);
     }
 
     @Override

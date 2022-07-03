@@ -52,12 +52,12 @@ public class SignupActivity extends AppCompatActivity {
         db = FirebaseDatabase.getInstance();
 
         // salvataggio dei riferimenti dei relativi componenti xml
-        name = (EditText) findViewById(R.id.editTextName);
-        surname = (EditText) findViewById(R.id.editTextSurname);
-        email = (EditText) findViewById(R.id.editTextEmailAddress);
-        password = (EditText) findViewById(R.id.editTextPassword);
-        signupButton = (Button) findViewById(R.id.signupButton);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        name = findViewById(R.id.editTextName);
+        surname = findViewById(R.id.editTextSurname);
+        email = findViewById(R.id.editTextEmailAddress);
+        password = findViewById(R.id.editTextPassword);
+        signupButton = findViewById(R.id.signupButton);
+        progressBar = findViewById(R.id.progressBar);
     }
 
     @Override

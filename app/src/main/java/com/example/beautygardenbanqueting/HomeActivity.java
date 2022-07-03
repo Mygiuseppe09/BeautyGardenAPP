@@ -56,13 +56,13 @@ public class HomeActivity extends AppCompatActivity implements ItemAdapter.onIte
         db = FirebaseDatabase.getInstance();
 
         // salvataggio dei riferimenti dei relativi componenti xml
-        profileTab = (ImageView) findViewById(R.id.profileIcon);
-        homeTab = (ImageView) findViewById(R.id.homeIcon);
-        logoutTab = (ImageView) findViewById(R.id.logoutIcon);
-        hiUser = (TextView) findViewById(R.id.hiUserTextView);
+        profileTab = findViewById(R.id.profileIcon);
+        homeTab = findViewById(R.id.homeIcon);
+        logoutTab = findViewById(R.id.logoutIcon);
+        hiUser = findViewById(R.id.hiUserTextView);
 
         //Per la RecyclerView
-        contents = (RecyclerView) findViewById(R.id.contentsRecyclerView);
+        contents = findViewById(R.id.contentsRecyclerView);
         contents.setLayoutManager(new LinearLayoutManager(this));
 
         options = new FirebaseRecyclerOptions.Builder<Item>()

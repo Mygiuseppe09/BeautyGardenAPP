@@ -54,12 +54,12 @@ public class SuperItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_super_item);
 
         // prendiamo i riferimenti degli oggetti xml
-        image = (ImageView) findViewById(R.id.ImageViewItem);
-        capacityValue = (TextView) findViewById(R.id.capacityValue);
-        priceValue = (TextView) findViewById(R.id.priceValue);
-        description = (TextView) findViewById(R.id.description);
-        edit = (Button) findViewById(R.id.editButton);
-        delete = (Button) findViewById(R.id.deleteButton);
+        image = findViewById(R.id.ImageViewItem);
+        capacityValue = findViewById(R.id.capacityValue);
+        priceValue = findViewById(R.id.priceValue);
+        description = findViewById(R.id.description);
+        edit = findViewById(R.id.editButton);
+        delete = findViewById(R.id.deleteButton);
 
         // reperiamo l'id della sala da mostrare nell'activity
         itemId = getIntent().getStringExtra("id");

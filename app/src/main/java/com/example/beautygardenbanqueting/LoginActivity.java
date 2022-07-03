@@ -54,12 +54,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // salvataggio dei riferimenti dei relativi componenti xml
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        email = (EditText) findViewById(R.id.loginEmailAddress);
-        password = (EditText) findViewById(R.id.loginPassword);
-        signupTextView = (TextView) findViewById(R.id.signupTextView);
-        loginButton = (Button) findViewById(R.id.loginButton);
-        resetPassword = (TextView) findViewById(R.id.resetPassword);
+        progressBar = findViewById(R.id.progressBar);
+        email = findViewById(R.id.loginEmailAddress);
+        password = findViewById(R.id.loginPassword);
+        signupTextView = findViewById(R.id.signupTextView);
+        loginButton = findViewById(R.id.loginButton);
+        resetPassword = findViewById(R.id.resetPassword);
 
 
         // otteniamo le istanze relative a Firebase

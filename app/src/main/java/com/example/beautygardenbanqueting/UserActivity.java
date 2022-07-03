@@ -51,11 +51,11 @@ public class UserActivity extends AppCompatActivity implements ItemAdapter.onIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        nameView = (TextView) findViewById(R.id.nameView);
-        surnameView = (TextView) findViewById(R.id.surnameView);
-        emailView = (TextView) findViewById(R.id.emailView);
-        homeTab = (ImageView) findViewById(R.id.homeIcon);
-        logoutTab = (ImageView) findViewById(R.id.logoutIcon);
+        nameView = findViewById(R.id.nameView);
+        surnameView = findViewById(R.id.surnameView);
+        emailView = findViewById(R.id.emailView);
+        homeTab = findViewById(R.id.homeIcon);
+        logoutTab = findViewById(R.id.logoutIcon);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -63,7 +63,7 @@ public class UserActivity extends AppCompatActivity implements ItemAdapter.onIte
 
         //Per la RecyclerView:
         // collegamento alla RycicleView all'interno della activity_user.xml
-        contents = (RecyclerView) findViewById(R.id.wishlistRecyclerView);
+        contents = findViewById(R.id.wishlistRecyclerView);
         contents.setLayoutManager(new LinearLayoutManager(this));
         // ne impostiamo la query
         if (mAuth.getCurrentUser() != null)

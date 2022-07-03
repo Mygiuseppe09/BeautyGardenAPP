@@ -55,12 +55,12 @@ public class ItemActivity extends AppCompatActivity {
         itemId = getIntent().getStringExtra("id");
 
         // prendiamo i riferimenti degli oggetti xml
-        image = (ImageView) findViewById(R.id.ImageViewItem);
-        addToWishListButton = (ImageView) findViewById(R.id.wishListIcon);
-        capacityValue = (TextView) findViewById(R.id.capacityValue);
-        priceValue = (TextView) findViewById(R.id.priceValue);
-        description = (TextView) findViewById(R.id.description);
-        ratingBar = (RatingBar) findViewById(R.id.ratingBarItem);
+        image = findViewById(R.id.ImageViewItem);
+        addToWishListButton = findViewById(R.id.wishListIcon);
+        capacityValue = findViewById(R.id.capacityValue);
+        priceValue = findViewById(R.id.priceValue);
+        description = findViewById(R.id.description);
+        ratingBar = findViewById(R.id.ratingBarItem);
 
         // otteniamo le istanze relative a Firebase
         db = FirebaseDatabase.getInstance();

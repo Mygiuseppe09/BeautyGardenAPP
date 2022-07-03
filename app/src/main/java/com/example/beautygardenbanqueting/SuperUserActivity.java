@@ -45,11 +45,11 @@ public class SuperUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_super_user);
 
         // salvataggio dei riferimenti dei relativi componenti xml
-        nameView = (TextView) findViewById(R.id.nameView);
-        surnameView = (TextView) findViewById(R.id.surnameView);
-        emailView = (TextView) findViewById(R.id.emailView);
-        homeTab = (ImageView) findViewById(R.id.homeIcon);
-        logoutTab = (ImageView) findViewById(R.id.logoutIcon);
+        nameView = findViewById(R.id.nameView);
+        surnameView = findViewById(R.id.surnameView);
+        emailView = findViewById(R.id.emailView);
+        homeTab = findViewById(R.id.homeIcon);
+        logoutTab = findViewById(R.id.logoutIcon);
 
         // otteniamo le istanze relative a Firebase
         mAuth = FirebaseAuth.getInstance();

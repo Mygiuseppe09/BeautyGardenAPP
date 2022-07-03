@@ -61,13 +61,13 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
         setContentView(R.layout.activity_super_home);
 
         // salvataggio dei riferimenti dei relativi componenti xml
-        numPeopleValue = (TextView) findViewById(R.id.numPeopleValue);
-        numItemsValue = (TextView) findViewById(R.id.numItemsValue);
-        name = (TextView) findViewById(R.id.hiUserTextView);
-        add = (Button) findViewById(R.id.addButton);
+        numPeopleValue = findViewById(R.id.numPeopleValue);
+        numItemsValue = findViewById(R.id.numItemsValue);
+        name = findViewById(R.id.hiUserTextView);
+        add = findViewById(R.id.addButton);
 
-        logoutTab = (ImageView) findViewById(R.id.logoutIcon);
-        profileTab = (ImageView) findViewById(R.id.profileIcon);
+        logoutTab = findViewById(R.id.logoutIcon);
+        profileTab = findViewById(R.id.profileIcon);
 
         // otteniamo le istanze relative a Firebase
         mAuth = FirebaseAuth.getInstance();
@@ -75,7 +75,7 @@ public class SuperHomeActivity extends AppCompatActivity implements ItemAdapter.
 
         //Per la RecyclerView:
         // collegamento alla RycicleView all'interno del file xml
-        contents = (RecyclerView) findViewById(R.id.adminItemsRecyclerView);
+        contents = findViewById(R.id.adminItemsRecyclerView);
         contents.setLayoutManager(new LinearLayoutManager(this));
         // ne impostiamo la query
         options = new FirebaseRecyclerOptions.Builder<Item>()
