@@ -72,46 +72,48 @@ public class ItemActivity extends AppCompatActivity {
         super.onStart();
 
         // ci agganciamo all'oggetto nella collection "items" grazie all'Uid
-        db.getReference("items").child(itemId)
-                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.exists()  && snapshot.getValue() != null) {
-                                    item = snapshot.getValue(Item.class);
-                                    // ora possiamo inizializzare il tutto..
+        db.getReference("items")
+                .child(itemId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()  && snapshot.getValue() != null) {
+                            item = snapshot.getValue(Item.class);
+                            // ora possiamo inizializzare il tutto..
 
-                                    // immagine
-                                    Glide.with(ItemActivity.this)
-                                            .load(item.getImage())
-                                            .into(image);
-                                    // prezzo
-                                    String priceWithSymbol = item.getPrice().toString() + "€";
-                                    priceValue.setText(priceWithSymbol);
-                                    // capienza massima
-                                    capacityValue.setText(item.getCapacity().toString());
-                                    // descrizione
-                                    description.setText(item.getDescription());
-                                    // review (se l'ha già messa)
-                                    HashMap<String, Float> reviews = item.getReviews();
-                                    if (reviews != null) { // se la sala ha almeno una review
-                                        for (String key: reviews.keySet()) {
-                                            // cicliamo le chiavi (che sono gli id degli utenti)
-                                            if (key.equals(mAuth.getCurrentUser().getUid())) {
-                                                // se troviamo tra le chiavi quella dell'utente loggato,
-                                                // allora l'utente ha già messo una review
-                                                float rating = reviews.get(key);
-                                                ratingBar.setRating(rating);
-                                                break;
-                                            }
-                                        }
+                            // immagine
+                            Glide.with(ItemActivity.this)
+                                    .load(item.getImage())
+                                    .into(image);
+                            // prezzo
+                            String priceWithSymbol = item.getPrice().toString() + "€";
+                            priceValue.setText(priceWithSymbol);
+                            // capienza massima
+                            capacityValue.setText(item.getCapacity().toString());
+                            // descrizione
+                            description.setText(item.getDescription());
+                            // review (se l'ha già messa)
+                            HashMap<String, Float> reviews = item.getReviews();
+                            if (reviews != null) { // se la sala ha almeno una review
+                                for (String key: reviews.keySet()) {
+                                    // cicliamo le chiavi (che sono gli id degli utenti)
+                                    if (key.equals(mAuth.getCurrentUser().getUid())) {
+                                        // se troviamo tra le chiavi quella dell'utente loggato,
+                                        // allora l'utente ha già messo una review
+                                        float rating = reviews.get(key);
+                                        ratingBar.setRating(rating);
+                                        break;
                                     }
                                 }
                             }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                Toast.makeText(ItemActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        });
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(ItemActivity.this, error.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
 
 
         // vediamo se l'utente ha già questa salla nella wishlist così da stabilire se caricare l'icona colorata o meno
