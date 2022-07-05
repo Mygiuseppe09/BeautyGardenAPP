@@ -117,6 +117,7 @@ public class ItemActivity extends AppCompatActivity {
 
 
         // vediamo se l'utente ha già questa salla nella wishlist così da stabilire se caricare l'icona colorata o meno
+        if (mAuth.getCurrentUser() != null)
         db.getReference("users")
                 .child(mAuth.getCurrentUser().getUid())
                 .child("wishlist")

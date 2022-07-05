@@ -55,6 +55,7 @@ public class ItemAdapter extends FirebaseRecyclerAdapter <Item,ItemAdapter.MyVie
         Glide.with(holder.image.getContext()).load(model.getImage()).into(holder.image);
     }
 
+    // ViewHolder
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -62,6 +63,7 @@ public class ItemAdapter extends FirebaseRecyclerAdapter <Item,ItemAdapter.MyVie
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
         return new MyViewHolder(view);
     }
+
 
 
     // STOTTO-CLASSE CHE CREA LE REFERENZE COL FILE XML
@@ -77,10 +79,10 @@ public class ItemAdapter extends FirebaseRecyclerAdapter <Item,ItemAdapter.MyVie
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            name = (TextView) itemView.findViewById(R.id.nameItem);
-            slogan = (TextView) itemView.findViewById(R.id.sloganItem);
-            image = (ImageView) itemView.findViewById(R.id.ImageViewItem);
-            ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBarItem);
+            name = itemView.findViewById(R.id.nameItem);
+            slogan = itemView.findViewById(R.id.sloganItem);
+            image = itemView.findViewById(R.id.ImageViewItem);
+            ratingBar = itemView.findViewById(R.id.ratingBarItem);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
